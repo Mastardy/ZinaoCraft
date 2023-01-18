@@ -4,7 +4,7 @@ using StbImageSharp;
 
 namespace ZinaoCraft;
 
-class Texture : IDisposable
+public class Texture : IDisposable
 {
     private readonly int id;
 

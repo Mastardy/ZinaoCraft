@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace ZinaoCraft;
 
-class Shader : IDisposable
+public class Shader : IDisposable
 {
     private bool disposed;
 

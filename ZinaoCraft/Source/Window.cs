@@ -9,7 +9,6 @@ namespace ZinaoCraft;
 
 public class Window : GameWindow
 {
-    private Shader defaultShader;
     private Texture container;
     private int vbo, vao, ebo;
 
@@ -82,8 +81,8 @@ public class Window : GameWindow
         GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         GL.Enable(EnableCap.DepthTest);
 
-        defaultShader = new(@"Shaders\DefaultShader.vert", @"Shaders\DefaultShader.frag");
-        container = new(@"Textures\container.jpg");
+        ResourceManager.CreateShader("DefaultShader", @"Shaders\DefaultShader.vert", @"Shaders\DefaultShader.frag");
+        ResourceManager.CreateTexture("Container", @"Textures\container.jpg");
 
         vbo = GL.GenBuffer();
         vao = GL.GenVertexArray();
@@ -101,17 +100,7 @@ public class Window : GameWindow
 
         GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
         GL.EnableVertexAttribArray(1);
-
-        stopWatch.Start();
     }
-
-    private Stopwatch stopWatch = new();
-
-    private float deltaTime;
-    private float lastFrame;
-    private float currentFrame;
-
-    private float time;
 
     private float x;
     private float y;
@@ -119,8 +108,6 @@ public class Window : GameWindow
     protected override void OnRenderFrame(FrameEventArgs args)
     {
         base.OnRenderFrame(args);
-
-        time += (float)args.Time;
 
         GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
@@ -136,21 +123,20 @@ public class Window : GameWindow
         Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(90.0f), Size.X / Size.Y, 0.1f, 100.0f);
 
         GL.BindVertexArray(vao);
-        defaultShader?.Use();
-        container?.Use();
 
-        if(defaultShader != null)
-        {
-            GL.UniformMatrix4(GL.GetUniformLocation(defaultShader.id, "model"), true, ref model);
-            GL.UniformMatrix4(GL.GetUniformLocation(defaultShader.id, "view"), true, ref view);
-            GL.UniformMatrix4(GL.GetUniformLocation(defaultShader.id, "projection"), true, ref projection);
-        }
+        var defaultShader = ResourceManager.GetShader("DefaultShader");
+        var container = ResourceManager.GetTexture("Container");
+
+        defaultShader.Use();
+        container.Use();
+
+        GL.UniformMatrix4(GL.GetUniformLocation(defaultShader.id, "model"), true, ref model);
+        GL.UniformMatrix4(GL.GetUniformLocation(defaultShader.id, "view"), true, ref view);
+        GL.UniformMatrix4(GL.GetUniformLocation(defaultShader.id, "projection"), true, ref projection);
 
         GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
 
         SwapBuffers();
-
-        lastFrame = currentFrame;
     }
 
     protected override void OnResize(ResizeEventArgs args)
