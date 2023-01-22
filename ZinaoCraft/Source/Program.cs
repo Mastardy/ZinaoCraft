@@ -2,9 +2,5 @@
 
 internal class Program
 {
-    private static void Main()
-    {
-        var game = new Window(800, 600, "Test Window");
-        game.Run();
-    }
+    private static void Main() => Game.Run();
 }

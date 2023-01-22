@@ -19,10 +19,10 @@ public class Shader : IDisposable
 
         vertexShader = GL.CreateShader(ShaderType.VertexShader);
         CreateShader(vertexShader, vertexPath, ShaderType.VertexShader);
-                
+
         fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
         CreateShader(fragmentShader, fragmentPath, ShaderType.FragmentShader);
-                
+
         if (geometryPath != "null")
         {
             geometryShader = GL.CreateShader(ShaderType.GeometryShader);
@@ -36,7 +36,7 @@ public class Shader : IDisposable
         GL.LinkProgram(id);
 
         GL.GetProgram(id, GetProgramParameterName.LinkStatus, out int success);
-        if(success == 0) Console.WriteLine(GL.GetProgramInfoLog(id));
+        if (success == 0) Console.WriteLine(GL.GetProgramInfoLog(id));
 
         GL.DetachShader(id, vertexShader);
         GL.DeleteShader(vertexShader);
@@ -44,7 +44,7 @@ public class Shader : IDisposable
         GL.DetachShader(id, fragmentShader);
         GL.DeleteShader(fragmentShader);
 
-        if(geometryPath != "null")
+        if (geometryPath != "null")
         {
             GL.DetachShader(id, geometryShader);
             GL.DeleteShader(geometryShader);
@@ -60,7 +60,7 @@ public class Shader : IDisposable
         GL.CompileShader(shader);
 
         GL.GetShader(shader, ShaderParameter.CompileStatus, out int success);
-        if(success == 0)
+        if (success == 0)
         {
             Console.WriteLine(GL.GetShaderInfoLog(shader));
         }

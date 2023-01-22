@@ -1,11 +1,15 @@
-﻿using OpenTK.Graphics.OpenGL;
-
-namespace ZinaoCraft;
+﻿namespace ZinaoCraft;
 
 public static class ResourceManager
 {
     private static readonly Dictionary<string, Texture> textures = new();
     private static readonly Dictionary<string, Shader> shaders = new();
+    private static readonly Dictionary<string, Material> materials = new();
+
+    public static void LoadAllResources()
+    {
+
+    }
 
     public static void CreateShader(string name, string vertexPath, string fragmentPath, string geometryPath = "null")
     {
