@@ -13,7 +13,11 @@ public static class World
 
     public static void AddComponent<T>(Component component) where T : System, new()
     {
-        if (systems.ContainsKey(typeof(T))) return;
+        if (systems.ContainsKey(typeof(T)))
+        {
+            systems[typeof(T)].AddComponent(component);
+            return;
+        }
         
         var system = new T();
         systems.Add(typeof(T), system);
@@ -29,6 +33,12 @@ public static class World
     public static void Destroy(Entity entity)
     {
         all.Remove(entity);
+        for(int i = 0; i < entity.components.Count; i++)
+        {
+            var component = entity.components[i];
+            systems[component.systemType].RemoveComponent(component);
+        }
+        entity.components.Clear();
         all.TrimExcess();
     }
 }

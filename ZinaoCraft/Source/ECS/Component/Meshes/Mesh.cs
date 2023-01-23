@@ -13,7 +13,7 @@ public abstract class Mesh : Component
 
     public Material material;
 
-    public Mesh(Entity parent) : base(parent)
+    public Mesh(Entity parent) : base(parent, typeof(MeshRenderer))
     {
         vertices = Array.Empty<Vertex>();
         indices = Array.Empty<uint>();

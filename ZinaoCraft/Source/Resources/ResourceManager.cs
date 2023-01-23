@@ -21,10 +21,14 @@ public static class ResourceManager
         textures.Add(name, new Texture(path));
     }
 
+    public static void CreateMaterial(string name, Shader shader, Dictionary<string, List<object>> uniforms, List<Texture> textures)
+    {
+        materials.Add(name, new Material(shader, uniforms, textures));
+    }
+
     public static Shader GetShader(string name)
     {
-        if (!shaders.ContainsKey(name)) throw new Exception($"There's no shader named {name} in the ResourceManager.");
-        var shader = shaders[name];
+        if (!shaders.TryGetValue(name, out Shader? shader)) throw new Exception($"There's no shader named {name} in the ResourceManager.");
         if (shader == null) throw new NullReferenceException($"Shader {name} was null!");
         
         return shader;
@@ -32,11 +36,18 @@ public static class ResourceManager
     
     public static Texture GetTexture(string name)
     {
-        if (!textures.ContainsKey(name)) throw new Exception($"There's no texture named {name} in the ResourceManager.");
-        var texture = textures[name];
+        if (!textures.TryGetValue(name, out Texture? texture)) throw new Exception($"There's no texture named {name} in the ResourceManager.");
         if (texture == null) throw new NullReferenceException($"Texture {name} was null!");
 
         return texture;
+    }
+
+    public static Material GetMaterial(string name)
+    {
+        if (!materials.TryGetValue(name, out Material? material)) throw new Exception($"There's no material named {name} in the ResourceManager.");
+        if (material == null) throw new NullReferenceException($"Material {name} was null!");
+
+        return material;
     }
 
     public static void DestroyShader(string name)

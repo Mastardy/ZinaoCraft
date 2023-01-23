@@ -17,6 +17,7 @@
 		</Content>
 	</ItemGroup>
 	<ItemGroup>
+	  <Folder Include="Resources\" />
 	  <Folder Include="Source\Resources\" />
 	</ItemGroup>
 
