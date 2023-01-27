@@ -2,15 +2,15 @@
 
 public abstract class Component : IEquatable<Component>
 {
-    protected string id;
-    public Type systemType;
+    protected readonly string id;
+    public string Id => id;
+    
     public Entity parent;
 
-    public Component(Entity parent, Type systemType)
+    protected Component(Entity parent)
     {
         this.parent = parent;
         id = Guid.NewGuid().ToString();
-        this.systemType = systemType;
     }
 
     public bool Equals(Component? other) => other?.id == id;

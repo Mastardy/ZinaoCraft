@@ -1,9 +1,6 @@
 ﻿namespace ZinaoCraft;
 
-public class System
+public interface ISystem
 {
-    protected readonly List<Component> components = new();
-
-    public void AddComponent(Component component) => components.Add(component);
-    public void RemoveComponent(Component component) => components.Remove(component);
+    public void Update();
 }

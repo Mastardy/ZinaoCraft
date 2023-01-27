@@ -14,13 +14,16 @@ public static class Game
 
     public static void OnLoad()
     {
+        World.RegisterSystem<MeshRenderer>();
+        World.RegisterSystem<TransformSystem>();
+        
         ResourceManager.Create("DefaultShader", new Shader(@"Shaders\DefaultShader.vert", @"Shaders\DefaultShader.frag"));
         ResourceManager.Create("Container", new Texture(@"Textures\container.jpg"));
 
         var uniforms = new Dictionary<string, List<object>>
         {
-            { "model", new List<object>() { Matrix4.Identity } },
-            { "view", new List<object>() { Matrix4.CreateTranslation(0.0f, 0.0f, -10.0f) } },
+            { "transform", new List<object>() { Matrix4.Identity } },
+            { "view", new List<object>() { Matrix4.CreateTranslation(0.0f, 0.0f, -3.0f) } },
             { "projection", new List<object>() { Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(90.0f), Game.window.Size.X / Game.window.Size.Y, 0.1f, 100.0f) }}
         };
 
@@ -30,44 +33,28 @@ public static class Game
         };
         
         ResourceManager.Create("DefaultMaterial", new Material(ResourceManager.Get<Shader>("DefaultShader"), uniforms, textures));
+        
+        ResourceManager.Create<Mesh>("CubeMesh", new BlockMesh());
     }
 
     public static void OnUpdate()
     {
+        World.Systems[typeof(TransformSystem)].Update();
+        
         if (Input.GetKeyDown(Keys.Escape)) Close();
 
-        if (Input.GetKeyDown(Keys.J)) World.Instantiate(new Block());
+        if (Input.GetKeyDown(Keys.J) && World.All.Count < 1) World.Instantiate(new Block());
         if (Input.GetKeyDown(Keys.K) && World.All.Count > 0) World.Destroy(World.All[^1]);
-
-        for(int i = 0; i < World.All.Count; i++)
-        {
-            if (Input.GetKeyDown(Keys.W))
-            {
-                World.All[i].transform.position = new Vector3(0, 1 + i, 0);
-            }
-            if (Input.GetKeyDown(Keys.S))
-            {
-                World.All[i].transform.position = new Vector3(0, -1 - i, 0);
-            }
-            if (Input.GetKeyDown(Keys.A))
-            {
-                World.All[i].transform.position = new Vector3(-1 - i, 0, 0);
-            }
-            if (Input.GetKeyDown(Keys.D))
-            {
-                World.All[i].transform.position = new Vector3(1 + i, 0, 0);
-            }
-        }
     }
 
     public static void OnRender()
     {
-        var meshRenderer = World.GetSystem<MeshRenderer>();
-        meshRenderer?.Render();
+        World.Systems[typeof(MeshRenderer)].Update();
     }
 
     public static void Close()
     {
         window.Close();
+        ResourceManager.DisposeAll();
     }
 }

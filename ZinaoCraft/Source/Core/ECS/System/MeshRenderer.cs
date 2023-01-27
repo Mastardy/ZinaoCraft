@@ -2,25 +2,23 @@
 
 namespace ZinaoCraft;
 
-public class MeshRenderer : System
+public class MeshRenderer : ISystem
 {
-    public MeshRenderer() { }
-
-    public void Render()
+    public void Update()
     {
-        for (int i = 0; i < components.Count; i++)
+        var renderables = World.GetComponents<Renderable>();
+        if (renderables == null) return;
+
+        for (int i = 0; i < renderables.Count; i++)
         {
-            // TODO: Make a MeshRenderer, MeshComponent and MaterialComponent!
+            var mesh = renderables[i].Mesh;
+            var material = renderables[i].Material;
             
-            // if (components[i] is not Mesh mesh) throw new NullReferenceException("Mesh was null!");
-            //
-            // GL.BindVertexArray(mesh.vertexArrayObject);
-            //
-            // mesh.material.ChangeUniform("model", mesh.parent.transform.GetTransform());
-            //
-            // mesh.material.Use();
-            //
-            // GL.DrawElements(PrimitiveType.Triangles, mesh.indices.Length, DrawElementsType.UnsignedInt, 0);
+            GL.BindVertexArray(mesh.VertexArrayObject);
+            
+            material.Use();
+            
+            GL.DrawElements(PrimitiveType.Triangles, mesh.Indices.Length, DrawElementsType.UnsignedInt, 0);
         }
     }
 }

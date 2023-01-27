@@ -5,28 +5,16 @@ namespace ZinaoCraft;
 public abstract class Entity : IEquatable<Entity>
 {
     protected readonly string id;
-    public string ID => id;
+    public string Id => id;
 
     public readonly List<Component> components = new();
 
-    public Transform transform;
+    protected Entity() => id = Guid.NewGuid().ToString();
 
-    public Entity()
-    {
-        id = Guid.NewGuid().ToString();
-        transform = new Transform(this, Vector3.Zero, Quaternion.Identity, Vector3.One);
-    }
-
-    public Entity(Vector3 position, Quaternion rotation, Vector3 scale)
-    {
-        id = Guid.NewGuid().ToString();
-        transform = new Transform(this, position, rotation, scale);
-    }
-
-
-    public void AddComponent(Component component)
+    public void AddComponent<T>(T component) where T : Component
     {
         components.Add(component);
+        World.AddComponent(component);
     }
 
     public T? GetComponent<T>() where T : Component
@@ -34,11 +22,7 @@ public abstract class Entity : IEquatable<Entity>
         for(int i = 0; i < components.Count; i++)
         {
             var component = components[i];
-
-            if (component.GetType() == typeof(T))
-            {
-                return (T)component;
-            }
+            if (component.GetType() == typeof(T)) return (T)component;
         }
 
         return null;

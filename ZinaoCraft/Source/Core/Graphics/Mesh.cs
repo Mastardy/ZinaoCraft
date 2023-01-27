@@ -7,13 +7,18 @@ public abstract class Mesh : IDisposable
     private bool disposed;
     
     private readonly int vertexArrayObject;
+    public int VertexArrayObject => vertexArrayObject;
     private readonly int vertexBufferObject;
+    public int VertexBufferObject => vertexBufferObject;
     private readonly int elementBufferObject;
+    public int ElementBufferObject => elementBufferObject;
 
     protected Vertex[] vertices;
+    public Vertex[] Vertices => vertices;
     protected uint[] indices;
+    public uint[] Indices => indices;
 
-    public Mesh()
+    protected Mesh()
     {
         vertices = Array.Empty<Vertex>();
         indices = Array.Empty<uint>();
@@ -23,7 +28,7 @@ public abstract class Mesh : IDisposable
         elementBufferObject = GL.GenBuffer();
     }
 
-    public void UpdateMesh()
+    protected void UpdateMesh()
     {
         GL.BindVertexArray(vertexArrayObject);
 
@@ -44,7 +49,7 @@ public abstract class Mesh : IDisposable
         GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
     }
     
-    protected virtual void Dispose(bool _)
+    protected void Dispose(bool _)
     {
         if (disposed) return;
 
