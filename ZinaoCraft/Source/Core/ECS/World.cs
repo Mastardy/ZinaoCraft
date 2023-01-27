@@ -6,11 +6,9 @@ public static class World
 {
     private static readonly List<Entity> all = new();
     private static readonly Dictionary<Type, List<Component>> components = new();
-    private static readonly Dictionary<Type, ISystem> systems = new();
     
     public static ReadOnlyCollection<Entity> All => all.AsReadOnly();
     public static ReadOnlyDictionary<Type, List<Component>> Components => components.AsReadOnly();
-    public static ReadOnlyDictionary<Type, ISystem> Systems => systems.AsReadOnly();
 
     public static void Instantiate(Entity entity) => all.Add(entity);
 
@@ -22,14 +20,6 @@ public static class World
         
         all.Remove(entity);        
         all.TrimExcess();
-    }
-
-    public static void RegisterSystem<T>() where T : ISystem, new()
-    {
-        var systemType = typeof(T);
-        if (systems.ContainsKey(systemType)) return;
-        
-        systems.Add(systemType, new T());
     }
 
     public static void AddComponent<T>(T component) where T : Component

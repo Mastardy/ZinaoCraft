@@ -1,4 +1,5 @@
-﻿using OpenTK.Mathematics;
+﻿using System.Diagnostics;
+using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace ZinaoCraft;
@@ -14,8 +15,7 @@ public static class Game
 
     public static void OnLoad()
     {
-        World.RegisterSystem<MeshRenderer>();
-        World.RegisterSystem<TransformSystem>();
+        SystemManager.RegisterSystems();
         
         ResourceManager.Create("DefaultShader", new Shader(@"Shaders\DefaultShader.vert", @"Shaders\DefaultShader.frag"));
         ResourceManager.Create("Container", new Texture(@"Textures\container.jpg"));
@@ -39,8 +39,8 @@ public static class Game
 
     public static void OnUpdate()
     {
-        World.Systems[typeof(TransformSystem)].Update();
-        
+        SystemManager.Update();
+
         if (Input.GetKeyDown(Keys.Escape)) Close();
 
         if (Input.GetKeyDown(Keys.J) && World.All.Count < 1) World.Instantiate(new Block());
@@ -49,7 +49,7 @@ public static class Game
 
     public static void OnRender()
     {
-        World.Systems[typeof(MeshRenderer)].Update();
+        SystemManager.Render();
     }
 
     public static void Close()

@@ -1,6 +1,18 @@
 ﻿namespace ZinaoCraft;
 
-public interface ISystem
+public enum SystemUpdateOrder
 {
-    public void Update();
+    Early,
+    Normal,
+    Late,
+    Render
+}
+
+public abstract class System
+{
+    public readonly SystemUpdateOrder updateOrder;
+
+    protected System(SystemUpdateOrder systemUpdateOrder) => updateOrder = systemUpdateOrder;
+    
+    public abstract void Update();
 }

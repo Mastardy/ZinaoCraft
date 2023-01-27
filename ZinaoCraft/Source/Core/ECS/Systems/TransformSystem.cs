@@ -1,10 +1,10 @@
-﻿using OpenTK.Mathematics;
+﻿namespace ZinaoCraft;
 
-namespace ZinaoCraft;
-
-public class TransformSystem : ISystem
+public class TransformSystem : System
 {
-    public void Update()
+    public TransformSystem() : base(SystemUpdateOrder.Early) { }
+
+    public override void Update()
     {
         var transforms = World.GetComponents<Transform>();
         if (transforms == null) return;

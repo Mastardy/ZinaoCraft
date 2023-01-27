@@ -15,6 +15,7 @@ public class Window : GameWindow
     {
         base.OnUpdateFrame(args);
         Game.OnUpdate();
+        Time.UpdateDeltaTime();
     }
 
     protected override void OnLoad()
@@ -24,6 +25,8 @@ public class Window : GameWindow
         GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         GL.Enable(EnableCap.DepthTest);
 
+        Time.UpdateDeltaTime();
+        
         Game.OnLoad();
     }
 

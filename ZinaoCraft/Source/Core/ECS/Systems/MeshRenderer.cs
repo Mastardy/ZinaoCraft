@@ -2,9 +2,11 @@
 
 namespace ZinaoCraft;
 
-public class MeshRenderer : ISystem
+public class MeshRenderer : System
 {
-    public void Update()
+    public MeshRenderer() : base(SystemUpdateOrder.Render) { }
+    
+    public override void Update()
     {
         var renderables = World.GetComponents<Renderable>();
         if (renderables == null) return;
