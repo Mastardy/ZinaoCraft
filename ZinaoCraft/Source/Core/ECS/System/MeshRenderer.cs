@@ -10,15 +10,17 @@ public class MeshRenderer : System
     {
         for (int i = 0; i < components.Count; i++)
         {
-            if (components[i] is not Mesh mesh) throw new NullReferenceException("Mesh was null!");
-
-            GL.BindVertexArray(mesh.vertexArrayObject);
-
-            mesh.material.ChangeUniform("model", mesh.parent.transform.GetTransform());
+            // TODO: Make a MeshRenderer, MeshComponent and MaterialComponent!
             
-            mesh.material.Use();
-
-            GL.DrawElements(PrimitiveType.Triangles, mesh.indices.Length, DrawElementsType.UnsignedInt, 0);
+            // if (components[i] is not Mesh mesh) throw new NullReferenceException("Mesh was null!");
+            //
+            // GL.BindVertexArray(mesh.vertexArrayObject);
+            //
+            // mesh.material.ChangeUniform("model", mesh.parent.transform.GetTransform());
+            //
+            // mesh.material.Use();
+            //
+            // GL.DrawElements(PrimitiveType.Triangles, mesh.indices.Length, DrawElementsType.UnsignedInt, 0);
         }
     }
 }

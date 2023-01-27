@@ -26,7 +26,7 @@ public static class ResourceManager
         var type = typeof(T);
         
         if (!objects.TryGetValue(type, out var subDictionary)) throw new Exception($"[ResourceManager] Couldn't find a Resource of type {type}");
-        if (subDictionary.TryGetValue(name, out object? obj)) throw new Exception($"[ResourceManager] Couldn't find {name} under type {type} resources");
+        if (!subDictionary.TryGetValue(name, out object? obj)) throw new Exception($"[ResourceManager] Couldn't find {name} under type {type} resources");
         if (obj == null) throw new NullReferenceException($"[ResourceManager] {name} was null when trying to get it from {type} resources");
 
         return (T)obj;
