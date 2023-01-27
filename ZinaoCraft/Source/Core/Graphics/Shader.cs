@@ -8,20 +8,18 @@ public class Shader : IDisposable
     private bool disposed;
 
     public readonly int id;
-
-    private readonly int vertexShader;
-    private readonly int fragmentShader;
-    private readonly int geometryShader;
-
+    
     public Shader(string vertexPath, string fragmentPath, string geometryPath = "null")
     {
         id = GL.CreateProgram();
 
-        vertexShader = GL.CreateShader(ShaderType.VertexShader);
+        var vertexShader = GL.CreateShader(ShaderType.VertexShader);
         CreateShader(vertexShader, vertexPath, ShaderType.VertexShader);
 
-        fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
+        var fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
         CreateShader(fragmentShader, fragmentPath, ShaderType.FragmentShader);
+        
+        int geometryShader = 0;
 
         if (geometryPath != "null")
         {

@@ -2,18 +2,18 @@
 
 namespace ZinaoCraft;
 
-public abstract class Mesh : Component
+public abstract class Mesh : IDisposable
 {
-    public int vertexArrayObject;
-    public int vertexBufferObject;
-    public int elementBufferObject;
+    private bool disposed;
+    
+    private readonly int vertexArrayObject;
+    private readonly int vertexBufferObject;
+    private readonly int elementBufferObject;
 
-    public Vertex[] vertices;
-    public uint[] indices;
+    protected Vertex[] vertices;
+    protected uint[] indices;
 
-    public Material material;
-
-    public Mesh(Entity parent) : base(parent, typeof(MeshRenderer))
+    public Mesh()
     {
         vertices = Array.Empty<Vertex>();
         indices = Array.Empty<uint>();
@@ -21,10 +21,6 @@ public abstract class Mesh : Component
         vertexArrayObject = GL.GenVertexArray();
         vertexBufferObject = GL.GenBuffer();
         elementBufferObject = GL.GenBuffer();
-
-        material = ResourceManager.GetMaterial("DefaultMaterial");
-
-        World.AddComponent<MeshRenderer>(this);
     }
 
     public void UpdateMesh()
@@ -42,5 +38,26 @@ public abstract class Mesh : Component
 
         GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
         GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
+
+        GL.BindVertexArray(0);
+        GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+        GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
+    }
+    
+    protected virtual void Dispose(bool _)
+    {
+        if (disposed) return;
+
+        GL.DeleteVertexArray(vertexArrayObject);
+        GL.DeleteBuffer(vertexBufferObject);
+        GL.DeleteBuffer(elementBufferObject);
+        
+        disposed = true;
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 }

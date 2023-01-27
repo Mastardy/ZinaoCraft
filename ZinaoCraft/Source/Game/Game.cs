@@ -1,5 +1,4 @@
-﻿using OpenTK.Graphics.ES11;
-using OpenTK.Mathematics;
+﻿using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace ZinaoCraft;
@@ -15,8 +14,8 @@ public static class Game
 
     public static void OnLoad()
     {
-        ResourceManager.CreateShader("DefaultShader", @"Shaders\DefaultShader.vert", @"Shaders\DefaultShader.frag");
-        ResourceManager.CreateTexture("Container", @"Textures\container.jpg");
+        ResourceManager.Create("DefaultShader", new Shader(@"Shaders\DefaultShader.vert", @"Shaders\DefaultShader.frag"));
+        ResourceManager.Create("Container", new Texture(@"Textures\container.jpg"));
 
         var uniforms = new Dictionary<string, List<object>>
         {
@@ -27,10 +26,10 @@ public static class Game
 
         var textures = new List<Texture>
         {
-            ResourceManager.GetTexture("Container")
+            ResourceManager.Get<Texture>("Container")
         };
         
-        ResourceManager.CreateMaterial("DefaultMaterial", ResourceManager.GetShader("DefaultShader"), uniforms, textures);
+        ResourceManager.Create("DefaultMaterial", new Material(ResourceManager.Get<Shader>("DefaultShader"), uniforms, textures));
     }
 
     public static void OnUpdate()
@@ -38,7 +37,7 @@ public static class Game
         if (Input.GetKeyDown(Keys.Escape)) Close();
 
         if (Input.GetKeyDown(Keys.J)) World.Instantiate(new Block());
-        if (Input.GetKeyDown(Keys.K)) World.Destroy(World.All[^1]);
+        if (Input.GetKeyDown(Keys.K) && World.All.Count > 0) World.Destroy(World.All[^1]);
 
         for(int i = 0; i < World.All.Count; i++)
         {
