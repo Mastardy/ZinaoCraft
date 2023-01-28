@@ -4,10 +4,16 @@ namespace ZinaoCraft;
 
 public class Transform : Component
 {
-    public Vector3 position;
-    public Quaternion rotation;
-    public Vector3 scale;
+    public Vector3 position = Vector3.Zero;
+    public Quaternion rotation = Quaternion.Identity;
+    public Vector3 scale = Vector3.One;
 
+    public Vector3 forward => rotation * new Vector3(0, 0, 1);
+
+    public Vector3 up => rotation * new Vector3(0, 1, 0);
+
+    public Vector3 right => rotation * new Vector3(1, 0, 0);
+    
     public Matrix4 Matrix
     {
         get
@@ -20,12 +26,7 @@ public class Transform : Component
         }
     }
 
-    public Transform(Entity parent) : base(parent)
-    {
-        position = Vector3.Zero;
-        rotation = Quaternion.Identity;
-        scale = Vector3.One;
-    }
+    public Transform(Entity parent) : base(parent) { }
     
     public Transform(Entity parent, Vector3 position, Quaternion rotation, Vector3 scale) : base(parent)
     {

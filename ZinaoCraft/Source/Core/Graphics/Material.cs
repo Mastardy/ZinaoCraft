@@ -60,7 +60,7 @@ public class Material
 
         if (value is int) GL.Uniform1(location, (int)value);
         else if (value is uint) GL.Uniform1(location, (uint)value);
-        else if (value is float) GL.Uniform1(location, (uint)value);
+        else if (value is float) GL.Uniform1(location, (float)value);
         else if (value is double) GL.Uniform1(location, (double)value);
         else if (value is Matrix4 matrix) GL.UniformMatrix4(location, true, ref matrix);
         else throw new Exception("Unrecognized Uniform: " + value.GetType());

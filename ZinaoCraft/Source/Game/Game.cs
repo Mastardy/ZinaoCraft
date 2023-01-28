@@ -13,9 +13,14 @@ public static class Game
         window.Run();
     }
 
+    private static FirstPersonCamera? camera;
+
     public static void OnLoad()
     {
         SystemManager.RegisterSystems();
+
+        camera = new FirstPersonCamera();
+        World.Instantiate(camera);
         
         ResourceManager.Create("DefaultShader", new Shader(@"Shaders\DefaultShader.vert", @"Shaders\DefaultShader.frag"));
         ResourceManager.Create("Container", new Texture(@"Textures\container.jpg"));
@@ -23,7 +28,7 @@ public static class Game
         var uniforms = new Dictionary<string, List<object>>
         {
             { "transform", new List<object>() { Matrix4.Identity } },
-            { "view", new List<object>() { Matrix4.CreateTranslation(0.0f, 0.0f, -3.0f) } },
+            { "view", new List<object>() { Matrix4.CreateTranslation(0.0f, 0.0f, 0.0f) } },
             { "projection", new List<object>() { Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(90.0f), Game.window.Size.X / Game.window.Size.Y, 0.1f, 100.0f) }}
         };
 
@@ -43,8 +48,8 @@ public static class Game
 
         if (Input.GetKeyDown(Keys.Escape)) Close();
 
-        if (Input.GetKeyDown(Keys.J) && World.All.Count < 1) World.Instantiate(new Block());
-        if (Input.GetKeyDown(Keys.K) && World.All.Count > 0) World.Destroy(World.All[^1]);
+        if (Input.GetKeyDown(Keys.J)) World.Instantiate(new Block());
+        if (Input.GetKeyDown(Keys.K) && World.All.Count > 1) World.Destroy(World.All[^1]);
     }
 
     public static void OnRender()

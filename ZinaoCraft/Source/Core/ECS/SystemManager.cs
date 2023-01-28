@@ -13,7 +13,8 @@ public static class SystemManager
         RegisterSystem(new TransformSystem());
         
         // Normal
-        
+        RegisterSystem(new CameraSystem());
+        RegisterSystem(new MovementSystem());
         
         // Late
         
@@ -43,9 +44,9 @@ public static class SystemManager
 
     public static void Update()
     {
-        for (int i = 0; i < earlySystems.Count; i++) renderSystems[i].Update();
-        for (int i = 0; i < normalSystems.Count; i++) renderSystems[i].Update();
-        for (int i = 0; i < lateSystems.Count; i++) renderSystems[i].Update();
+        for (int i = 0; i < earlySystems.Count; i++) earlySystems[i].Update();
+        for (int i = 0; i < normalSystems.Count; i++) normalSystems[i].Update();
+        for (int i = 0; i < lateSystems.Count; i++) lateSystems[i].Update();
     }
 
     public static void Render()

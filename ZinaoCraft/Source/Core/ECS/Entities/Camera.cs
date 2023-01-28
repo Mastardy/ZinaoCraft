@@ -1,11 +1,10 @@
-﻿using OpenTK.Mathematics;
+﻿namespace ZinaoCraft;
 
-namespace ZinaoCraft;
-
-public class Camera : Entity
+public abstract class Camera : Entity
 {
-   public Camera()
+   protected Camera()
    {
-      AddComponent(new Transform(this, new Vector3(0, 0, -3), Quaternion.Identity, new Vector3(1, 1, 1)));
+      AddComponent(new Transform(this));
+      AddComponent(new CameraComponent(this));
    }
 }

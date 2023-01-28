@@ -47,7 +47,7 @@ public static class ResourceManager
             foreach(var subEntry in entry.Value)
             {
                 MethodInfo destroyMethod = typeof(ResourceManager).GetMethod("Destroy")?.MakeGenericMethod(entry.Key) ?? throw new NullReferenceException("Bruh");
-                destroyMethod.Invoke(null, new[] { subEntry.Value });
+                destroyMethod.Invoke(null, new object?[] { subEntry.Key });
             }
         }
 

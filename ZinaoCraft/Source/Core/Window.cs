@@ -9,6 +9,7 @@ public class Window : GameWindow
     public Window(int width, int height, string title) : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (width, height), Title = title })
     {
         Input.keyboardState = KeyboardState;
+        Input.mouseState = MouseState;
     }
 
     protected override void OnUpdateFrame(FrameEventArgs args)
@@ -21,6 +22,8 @@ public class Window : GameWindow
     protected override void OnLoad()
     {
         base.OnLoad();
+
+        CursorState = CursorState.Grabbed;
 
         GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         GL.Enable(EnableCap.DepthTest);

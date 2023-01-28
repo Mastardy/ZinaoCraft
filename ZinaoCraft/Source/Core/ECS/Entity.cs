@@ -1,6 +1,4 @@
-﻿using OpenTK.Mathematics;
-
-namespace ZinaoCraft;
+﻿namespace ZinaoCraft;
 
 public abstract class Entity : IEquatable<Entity>
 {
