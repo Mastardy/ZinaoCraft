@@ -8,8 +8,8 @@ public class MeshRenderer : System
     
     public override void Update()
     {
-        var renderables = World.GetComponents<Renderable>();
-        if (renderables == null) return;
+        var renderables = new List<Renderable>();
+        World.GetComponents(ref renderables);
 
         for (int i = 0; i < renderables.Count; i++)
         {

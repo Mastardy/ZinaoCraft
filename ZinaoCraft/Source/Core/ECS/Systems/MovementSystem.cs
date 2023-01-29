@@ -9,9 +9,9 @@ public class MovementSystem : System
     
     public override void Update()
     {
-        var movementComponents = World.GetComponents<MovementComponent>();
-        if (movementComponents == null) return;
-        
+        var movementComponents = new List<MovementComponent>();
+        World.GetComponents(ref movementComponents);
+
         for (int i = 0; i < movementComponents.Count; i++)
         {
             var movementComponent = movementComponents[i];

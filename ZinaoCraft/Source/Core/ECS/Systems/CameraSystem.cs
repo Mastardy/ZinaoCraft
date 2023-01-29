@@ -6,16 +6,16 @@ public class CameraSystem : System
 
     public override void Update()
     {
-        var cameras = World.GetComponents<CameraComponent>();
-        if (cameras == null) return;
+        List<CameraComponent> cameras = new();
+        World.GetComponents(ref cameras);
 
         for (int i = 0; i < cameras.Count; i++)
         {
             var camera = cameras[i];
             if (!camera.current) continue;
 
-            var renderables = World.GetComponents<Renderable>();
-            if (renderables == null) continue;
+            List<Renderable> renderables = new();
+            World.GetComponents(ref renderables);
 
             for (int j = 0; j < renderables.Count; j++)
             {

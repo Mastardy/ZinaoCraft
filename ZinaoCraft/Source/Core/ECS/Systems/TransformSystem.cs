@@ -6,8 +6,8 @@ public class TransformSystem : System
 
     public override void Update()
     {
-        var transforms = World.GetComponents<Transform>();
-        if (transforms == null) return;
+        var transforms = new List<Transform>();
+        World.GetComponents(ref transforms);
 
         for (int i = 0; i < transforms.Count; i++)
         {

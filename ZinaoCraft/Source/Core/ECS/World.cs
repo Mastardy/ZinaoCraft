@@ -41,17 +41,14 @@ public static class World
         subComponents.TrimExcess();
     }
 
-    public static List<T>? GetComponents<T>() where T : Component
+    public static void GetComponents<T>(ref List<T> list) where T : Component
     {
         components.TryGetValue(typeof(T), out var subComponents);
-        if (subComponents == null) return null;
+        if (subComponents == null) return;
 
-        var specificComponents = new List<T>();
         for (int i = 0; i < subComponents.Count; i++)
         {
-            specificComponents.Add((T)subComponents[0]);
+            list.Add((T)subComponents[0]);
         }
-
-        return specificComponents;
     }
 }
