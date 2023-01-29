@@ -2,7 +2,7 @@
 
 public class CameraSystem : System
 {
-    public CameraSystem() : base(SystemUpdateOrder.Late) { }
+    public CameraSystem() : base(SystemUpdateOrder.Normal) { }
 
     public override void Update()
     {
@@ -19,7 +19,7 @@ public class CameraSystem : System
 
             for (int j = 0; j < renderables.Count; j++)
             {
-                var renderable = renderables[i];
+                var renderable = renderables[j];
                 renderable.Material.ChangeUniform("view", camera.view);
                 renderable.Material.ChangeUniform("projection", camera.projection);
             }

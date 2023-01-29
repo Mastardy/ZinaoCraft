@@ -48,7 +48,7 @@ public static class World
 
         for (int i = 0; i < subComponents.Count; i++)
         {
-            list.Add((T)subComponents[0]);
+            list.Add((T)subComponents[i]);
         }
     }
 }

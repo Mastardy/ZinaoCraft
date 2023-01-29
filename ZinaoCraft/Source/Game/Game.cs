@@ -25,31 +25,26 @@ public static class Game
         ResourceManager.Create("DefaultShader", new Shader(@"Shaders\DefaultShader.vert", @"Shaders\DefaultShader.frag"));
         ResourceManager.Create("Container", new Texture(@"Textures\container.jpg"));
 
-        var uniforms = new Dictionary<string, List<object>>
-        {
-            { "transform", new List<object>() { Matrix4.Identity } },
-            { "view", new List<object>() { Matrix4.CreateTranslation(0.0f, 0.0f, 0.0f) } },
-            { "projection", new List<object>() { Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(90.0f), Game.window.Size.X / Game.window.Size.Y, 0.1f, 100.0f) }}
-        };
-
-        var textures = new List<Texture>
-        {
-            ResourceManager.Get<Texture>("Container")
-        };
-        
-        ResourceManager.Create("DefaultMaterial", new Material(ResourceManager.Get<Shader>("DefaultShader"), uniforms, textures));
-        
         ResourceManager.Create<Mesh>("CubeMesh", new BlockMesh());
-    }
 
+        var positions = ChunkGenerator.GenerateChunk(0, 0);
+        
+        for (int x = 0; x < 16; x++)
+        {
+            for (int y = 0; y < 16; y++)
+            {
+                var block = new Block();
+                World.Instantiate(block);
+                block.GetComponent<Transform>().position = positions[y + x * 16];
+            }
+        }
+    }
+    
     public static void OnUpdate()
     {
         SystemManager.Update();
 
         if (Input.GetKeyDown(Keys.Escape)) Close();
-
-        if (Input.GetKeyDown(Keys.J)) World.Instantiate(new Block());
-        if (Input.GetKeyDown(Keys.K) && World.All.Count > 1) World.Destroy(World.All[^1]);
     }
 
     public static void OnRender()

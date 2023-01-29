@@ -20,7 +20,7 @@ public class MovementSystem : System
             var movement = new Vector3(Input.GetKey(Keys.A) ? -1 : Input.GetKey(Keys.D) ? 1 : 0, 
                 Input.GetKey(Keys.LeftControl) ? -1 : Input.GetKey(Keys.Space) ? 1 : 0, 
                 Input.GetKey(Keys.S) ? -1 : Input.GetKey(Keys.W) ? 1 : 0);
-            movement *= Time.deltaTime;
+            movement *= Time.deltaTime * (Input.GetKey(Keys.LeftShift) ? 25 : 10);
             
             var mouseDelta = Input.mouseDelta / 800;
             
