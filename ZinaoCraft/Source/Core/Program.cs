@@ -1,6 +1,6 @@
 ﻿namespace ZinaoCraft;
 
-internal class Program
+internal abstract class Program
 {
     private static void Main() => Game.Run();
 }

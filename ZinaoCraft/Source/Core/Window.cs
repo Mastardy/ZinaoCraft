@@ -28,6 +28,10 @@ public class Window : GameWindow
         GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         GL.Enable(EnableCap.DepthTest);
 
+        GL.Enable(EnableCap.CullFace);
+        GL.CullFace(CullFaceMode.Front);
+        GL.FrontFace(FrontFaceDirection.Cw);
+        
         Time.UpdateDeltaTime();
         
         Game.OnLoad();
